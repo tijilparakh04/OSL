@@ -1,0 +1,251 @@
+1.	Pattern 1
+
+echo "enter the number of maximum stars"
+read max
+
+for((i=0; i<=max; i++))
+do
+	for((j=0; j<i+1; j++))
+	do
+		echo -n "*"
+	done
+	echo ""
+done
+
+2.	Pattern 2
+
+echo "enter the number of maximum stars"
+read max
+
+for((i=0; i<max; i++))
+do
+	for((j=0; j<i+1; j++))
+	do
+		echo -n "*"
+	done
+	echo ""
+done
+
+for((i=0; i<max; i++))
+do
+	for((k=max-i-2; k>=0; k--))
+	do
+		echo -n "*"
+	done
+	echo ""
+done
+
+3.	Pattern 3
+
+echo "enter the number of rows"
+read max
+
+for((i=0; i<max; i++))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=0; j<2*(i+1)-1; j++))
+	do
+		echo -n "*" 
+	done
+	echo ""
+done
+
+for((i=max-2; i>=0; i--))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=2*(i+1)-1; j>0; j--))
+	do
+		echo -n "*" 
+	done
+	echo ""
+done
+
+4.	Pattern 4
+
+echo "enter the number of rows"
+read max
+
+for((i=0; i<max; i++))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=0; j<2*(i+1)-1; j++))
+	do
+		echo -n "*" 
+	done
+	echo ""
+done
+
+5.	Pattern 5
+
+echo "enter the number of rows"
+read max
+
+for((i=0; i<max; i++))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	echo -n "*"
+	for((k=0; k<(2*i)-1; k++))
+	do
+		echo -n " "
+		if [ $k -eq $((2*i-2)) ] ; then
+			echo -n "*"
+		else
+			continue
+		fi
+	done
+	
+	echo ""
+done
+
+for((i=max-2; i>=0; i--))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	echo -n "*"
+	for((k=0; k<(2*i)-1; k++))
+	do
+		echo -n " "
+		if [ $k -eq $((2*i-2)) ] ; then
+			echo -n "*"
+		else
+			continue
+		fi
+	done
+	echo ""
+done
+
+6.	Pattern 6
+
+echo "enter the number of rows"
+read max
+for((i=max-1; i>=0; i--))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=2*(i+1)-1; j>0; j--))
+	do
+		echo -n "*" 
+	done
+	echo ""
+done
+for((i=0; i<max; i++))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=0; j<2*(i+1)-1; j++))
+	do
+		echo -n "*" 
+	done
+	echo ""
+done
+
+7.	Pattern 7
+
+echo "enter the number of rows"
+read max
+for((i=max-1; i>=0; i--))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=2*(i+1)-1; j>0; j--))
+	do
+		echo -n "*" 
+	done
+	echo ""
+done
+
+8.	Pattern 8
+
+echo "enter the number of rows"
+read max
+for((i=max-1; i>=0; i--))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=2*(i+1)-1; j>0; j-=2))
+	do
+		echo -n "*&" 
+	done
+	echo ""
+done
+for((i=0; i<max; i++))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	for((j=0; j<2*(i+1)-1; j+=2))
+	do
+		echo -n "*&" 
+	done
+	echo ""
+done
+
+9.	Pattern 9
+
+echo "enter the number of rows"
+read max
+for((i=max-1; i>=0; i--))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	
+	if [ $((i%2)) -eq 0 ] ; then
+	
+		for((j=2*(i+1)-1; j>0; j--))
+		do
+			echo -n "*" 
+		done
+	else
+		for((j=2*(i+1)-2; j>=0; j--))
+		do
+			echo -n "&" 
+		done
+	fi
+	echo ""
+done
+for((i=0; i<max; i++))
+do
+	for((j=max-i; j>=0; j--))
+	do
+		echo -n " " 
+	done
+	if [ $((i%2)) -eq 0 ] ; then
+	
+		for((j=0; j<2*(i+1)-1; j++))
+		do
+			echo -n "*" 
+		done
+	else
+		for((j=0; j<=2*(i+1)-2; j++))
+		do
+			echo -n "&" 
+		done
+	fi
+	
+	echo ""
+done
