@@ -1,0 +1,38 @@
+list_processes(){
+echo &quot;List all processes.&quot;
+ps
+}
+processes_info(){
+read -p &quot;Enter the PID of the process: &quot; pid
+echo &quot;Information about process $pid:&quot;
+ps $pid
+}
+global_priority(){
+read -p &quot;Enter PID of process: &quot; pid
+echo &quot;Global priority of $pid:&quot;
+ps -o pid,pri $pid
+}
+change_priority(){
+read -p &quot;Enter the PID of the process: &quot; pid
+read -p &quot;Enter new priority (default: 10): &quot; priority
+priority=${priority:-10}
+renice $priority $pid
+echo &quot;Priority of $pid changed to $priority&quot;
+}
+
+while true; do
+echo &quot;1. List processes&quot;
+echo &quot;2. Process info&quot;
+echo &quot;3. Global priority&quot;
+echo &quot;4. Change priority (default: 10)&quot;
+echo &quot;5. Exit&quot;
+read -p &quot;Choose an option (1-5): &quot; choice
+case $choice in
+1) list_processes ;;
+2) processes_info ;;
+3) global_priority ;;
+4) change_priority ;;
+5) echo &quot;Exiting&quot; ; exit ;;
+*) echo &quot;Invalid option&quot;;;
+esac
+done
