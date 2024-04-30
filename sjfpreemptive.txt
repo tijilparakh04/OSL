@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+struct Process {
+    int id;
+    int arrivaltime;
+    int bursttime;
+    int remainingtime;
+    int completiontime;
+    int waitingtime;
+    int turnaroundtime;
+};
+
+void calculateTimes(Process processes[], int n) {
+    int currenttime = 0;
+    int completedProcesses = 0;
+    int totalwaitingtime = 0;
+    int totalturnaroundtime = 0;
+
+    for (int i = 0; i < n; i++) {
+        processes[i].remainingtime = processes[i].bursttime;
+    }
+
+    while (completedProcesses != n) {
+        int minRemainingTimeIndex = -1;
+        int minRemainingTime = INT_MAX;
+
+        for (int i = 0; i < n; i++) {
+            if (processes[i].arrivaltime <= currenttime && processes[i].remainingtime < minRemainingTime && processes[i].remainingtime > 0) {
+                minRemainingTime = processes[i].remainingtime;
+                minRemainingTimeIndex = i;
+            }
+        }
+
+        if (minRemainingTimeIndex != -1) {
+            processes[minRemainingTimeIndex].remainingtime--;
+
+            if (processes[minRemainingTimeIndex].remainingtime == 0) {
+                completedProcesses++;
+                processes[minRemainingTimeIndex].completiontime = currenttime + 1;
+                processes[minRemainingTimeIndex].waitingtime = processes[minRemainingTimeIndex].completiontime - processes[minRemainingTimeIndex].bursttime - processes[minRemainingTimeIndex].arrivaltime;
+                processes[minRemainingTimeIndex].turnaroundtime = processes[minRemainingTimeIndex].waitingtime + processes[minRemainingTimeIndex].bursttime;
+
+                totalwaitingtime += processes[minRemainingTimeIndex].waitingtime;
+                totalturnaroundtime += processes[minRemainingTimeIndex].turnaroundtime;
+            }
+        }
+
+        currenttime++;
+    }
+
+    float avgwaitingtime = totalwaitingtime / static_cast<float>(n);
+    float avgturnaroundtime = totalturnaroundtime / static_cast<float>(n);
+
+    cout << "Average Waiting Time: " << avgwaitingtime << endl;
+    cout << "Average Turnaround Time: " << avgturnaroundtime << endl;
+}
+
+void displayProcesses(Process processes[], int n) {
+    cout << "Process\tArrival Time\tBurst Time\tCompletion Time\tWaiting Time\tTurnaround Time\n";
+    for (int i = 0; i < n; ++i) {
+        cout << "P" << processes[i].id << "\t" << processes[i].arrivaltime << "\t\t" << processes[i].bursttime << "\t\t"
+             << processes[i].completiontime << "\t\t" << processes[i].waitingtime << "\t\t" << processes[i].turnaroundtime << endl;
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of processes: ";
+    cin >> n;
+    Process processes[n];
+
+    cout << "Enter arrival time and burst time for each process:\n";
+    for (int i = 0; i < n; ++i) {
+        processes[i].id = i + 1;
+        cout << "Process " << i + 1 << ":\n";
+        cout << "Arrival time: ";
+        cin >> processes[i].arrivaltime;
+        cout << "Burst time: ";
+        cin >> processes[i].bursttime;
+    }
+
+    calculateTimes(processes, n);
+    displayProcesses(processes, n);
+
+    return 0;
+}
