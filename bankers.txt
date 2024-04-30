@@ -1,0 +1,92 @@
+#include <stdio.h>
+
+struct bankersAlgorithm
+{
+    int allocation[10];
+    int maxNeed[10];
+    int need[10];
+    int flag;
+};
+
+int main()
+{
+    // Taking inputs
+    int num;
+    printf("Enter the number of processes: ");
+    scanf("%d", &num);
+    struct bankersAlgorithm processes[num];
+    int res;
+    printf("Enter the number of resources: ");
+    scanf("%d", &res);
+
+    for (int i = 0; i < num; i++)
+    {
+        printf("Enter the allocated resources for process P %d\n: ", i + 1);
+        for (int j = 0; j < res; j++)
+        {
+            printf("Resource %d: ", j + 1);
+            scanf("%d", &processes[i].allocation[j]);
+        }
+        printf("Enter the maximum resources needed for process P %d\n: ", i + 1);
+        for (int j = 0; j < res; j++)
+        {
+            printf("Resource %d: ", j + 1);
+            scanf("%d", &processes[i].maxNeed[j]);
+            processes[i].need[j] = processes[i].maxNeed[j] - processes[i].allocation[j];
+        }
+        processes[i].flag = 0;
+    }
+
+    // Taking available resources input
+    int available[res];
+    printf("Enter the available resources: ");
+    for (int i = 0; i < res; i++)
+    {
+        scanf("%d", &available[i]);
+    }
+
+    // Actual functioning
+    struct bankersAlgorithm completedArray[num];
+    int completed = 0;
+    printf("Sequence of execution: ");
+    while (completed < num)
+    {
+        int unsafeState = 0;
+        for (int i = 0; i < num; i++)
+        {
+            if (processes[i].flag == 0)
+            {
+                int count = 0;
+                for (int j = 0; j < res; j++)
+                {
+                    if (processes[i].need[j] <= available[j])
+                    {
+                        count++;
+                        unsafeState = 1;
+                    }
+                }
+                if (count == res)
+                {
+
+                    processes[i].flag = 1;
+                    completedArray[completed] = processes[i];
+                    completed++;
+
+                    for (int j = 0; j < res; j++)
+                    {
+                        available[j] += processes[i].allocation[j];
+                    }
+
+                    printf("P%d ", i + 1);
+                }
+            }
+        }
+        if (!unsafeState)
+        {
+            printf("Unsafe state condition occured, deadlock may happen");
+            return 0;
+        }
+    }
+
+    return 0;
+}
